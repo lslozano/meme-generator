@@ -9,24 +9,33 @@ class MemeGenerator extends Component {
       randomImg: "http://i.imgflip.com/1bij.jpg",
       allMemeImgs: []
     }
+  // Bind our methods to the class.
   this.handleChange = this.handleChange.bind(this)
-  this.handleClick = this.handleSubmit.bind(this)
+  this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  // Method that will run when our site has finished loading.
   componentDidMount() {
+    // Petition to the API.
     fetch('https://api.imgflip.com/get_memes')
+    // Turn the response into a .json.
       .then(response => response.json())
+      // From response .data get all the memes.
       .then(response => {
         const { memes } = response.data
+        // Set the state property of allMemeImgs to the data from the petition.
         this.setState({ allMemeImgs: memes })
     })
   }
 
+  // Handle the change in our form. Controlled form.
   handleChange(event) {
     const { name, value } = event.target
     this.setState({ [name]: value })
   }
 
+  // When the form is submit, get a random image from allMemeImgs and set the state property of randomImg
+  // to this new value.
   handleSubmit(event) {
     event.preventDefault()
     const randomNumber = Math.floor(Math.random() * this.state.allMemeImgs.length)
